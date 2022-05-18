@@ -8,7 +8,6 @@ import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -34,17 +33,15 @@ import java.util.List;
 
   private void init(Context context) {
     binding = DebugLoggerBinding.inflate(LayoutInflater.from(context), this, true);
-    Button btnLogCopy = findViewById(R.id.btnLogCopy);
-    Button btnLogClear = findViewById(R.id.btnLogClear);
     logAdapter = new LogAdapter();
     binding.rvLogs.setAdapter(logAdapter);
-    btnLogClear.setOnClickListener(new OnClickListener() {
+    binding.btnLogClear.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
         LogManager.getInstance().clear();
         logAdapter.clear();
       }
     });
-    btnLogCopy.setOnClickListener(new OnClickListener() {
+    binding.btnLogCopy.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
         ClipboardManager clipboard =
             (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
