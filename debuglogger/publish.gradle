@@ -16,7 +16,7 @@ publishing {
       properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
       name = "GithubPackages"
-      url = uri("https://maven.pkg.github.com/japskiddin/Debug-Logger")
+      url = uri("https://maven.pkg.github.com/japskiddin/DebugLogger")
       credentials {
         username = properties.getProperty("GITHUB_USER")
         password = properties.getProperty("GITHUB_PERSONAL_ACCESS_TOKEN")
