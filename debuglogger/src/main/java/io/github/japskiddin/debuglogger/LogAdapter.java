@@ -26,14 +26,15 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogHolder> {
   }
 
   public String getAllText() {
-    StringBuilder str = new StringBuilder();
-    for (LogEvent log : logs) {
-      str.append(log.getTimeString())
-          .append(" - ")
-          .append(log.getText())
-          .append("\n");
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < logs.size(); i++) {
+      LogEvent log = logs.get(i);
+      sb.append(log.toString());
+      if (i + 1 < logs.size()) {
+        sb.append("\n");
+      }
     }
-    return str.toString();
+    return sb.toString();
   }
 
   public long getLastTime() {
@@ -65,8 +66,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogHolder> {
     }
 
     void bind(LogEvent log) {
-      String text = log.getTimeString() + " - " + log.getText();
-      mBinding.tvLog.setText(text);
+      mBinding.tvLog.setText(log.toString());
     }
   }
 }

@@ -1,13 +1,12 @@
 package io.github.japskiddin.debuglogger;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LogManager {
   private static LogManager instance;
-  private boolean enabled = false;
-  private final List<LogEvent> logs = new ArrayList<>();
+  private boolean enabled;
+  private final List<LogEvent> logs;
 
   public static LogManager getInstance() {
     LogManager localInstance = instance;
@@ -28,6 +27,11 @@ public class LogManager {
     }
   }
 
+  private LogManager() {
+    logs = new ArrayList<>();
+    enabled = false;
+  }
+
   public List<LogEvent> getLogs() {
     return logs;
   }
@@ -40,7 +44,6 @@ public class LogManager {
     if (!enabled) return;
     LogEvent log = new LogEvent(tag, event);
     logs.add(log);
-    Collections.sort(logs);
   }
 
   public boolean isEnabled() {

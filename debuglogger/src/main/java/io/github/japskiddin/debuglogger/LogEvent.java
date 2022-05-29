@@ -5,11 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class LogEvent implements Comparable<LogEvent> {
-  private long time = System.currentTimeMillis();
-  private String tag;
-  private String text;
+  private final long time;
+  private final String tag;
+  private final String text;
 
   public LogEvent(@NonNull String tag, String text) {
+    this.time = System.currentTimeMillis();
     this.tag = tag;
     this.text = text;
   }
@@ -18,33 +19,21 @@ public class LogEvent implements Comparable<LogEvent> {
     return tag;
   }
 
-  public void setTag(@NonNull String tag) {
-    this.tag = tag;
-  }
-
   public long getTime() {
     return time;
-  }
-
-  public String getTimeString() {
-    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
-    return sdf.format(time);
-  }
-
-  public void setTime(long time) {
-    this.time = time;
   }
 
   public String getText() {
     return text;
   }
 
-  public void setText(String text) {
-    this.text = text;
-  }
-
   @Override
   public int compareTo(LogEvent logEvent) {
     return this.time > logEvent.time ? 1 : -1;
+  }
+
+  @NonNull @Override public String toString() {
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
+    return tag + " - " + sdf.format(time) + " - " + text;
   }
 }
