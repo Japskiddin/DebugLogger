@@ -37,13 +37,33 @@ public class LogManager {
   }
 
   public void clear() {
-    logs.clear();
+    synchronized (logs) {
+      logs.clear();
+    }
   }
 
-  public void addToLog(String tag, String event) {
+  public void logInfo(String tag, String event) {
+    addToLog(LogEvent.LOG_INFO, tag, event);
+  }
+
+  public void logError(String tag, String event) {
+    addToLog(LogEvent.LOG_ERROR, tag, event);
+  }
+
+  public void logDebug(String tag, String event) {
+    addToLog(LogEvent.LOG_DEBUG, tag, event);
+  }
+
+  public void logWarn(String tag, String event) {
+    addToLog(LogEvent.LOG_WARN, tag, event);
+  }
+
+  private void addToLog(int type, String tag, String event) {
     if (!enabled) return;
-    LogEvent log = new LogEvent(tag, event);
-    logs.add(log);
+    synchronized (logs) {
+      LogEvent log = new LogEvent(type, tag, event);
+      logs.add(log);
+    }
   }
 
   public boolean isEnabled() {
