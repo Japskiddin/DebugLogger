@@ -1,16 +1,54 @@
 package io.github.japskiddin.debuglogger.sample;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
+import io.github.japskiddin.debuglogger.LogManager;
+import io.github.japskiddin.debuglogger.sample.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
   // TODO: 18.05.2022 добавить разные типы логов (err, warn) 
   // TODO: 18.05.2022 посмотреть, как написать таск, выполняющий assembleRelease и затем publish
-  // TODO: 18.05.2022 добавить пример
+
+  private ActivityMainBinding binding;
+  private final Handler testMessageHandler = new Handler(Looper.getMainLooper());
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    LogManager.init();
+    LogManager.getInstance().setEnabled(true);
+    binding = ActivityMainBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+    testMessageHandler.post(testMessageRunnable);
   }
+
+  @Override protected void onStart() {
+    super.onStart();
+    LogManager.getInstance().addToLog("Activity", "onStart");
+  }
+
+  @Override protected void onPause() {
+    LogManager.getInstance().addToLog("Activity", "onPause");
+    super.onPause();
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    LogManager.getInstance().addToLog("Activity", "onResume");
+  }
+
+  @Override protected void onDestroy() {
+    testMessageHandler.removeCallbacks(testMessageRunnable);
+    binding = null;
+    super.onDestroy();
+  }
+
+  private final Runnable testMessageRunnable = new Runnable() {
+    @Override public void run() {
+      LogManager.getInstance().addToLog("Test", "New message");
+      testMessageHandler.postDelayed(this, 5000);
+    }
+  };
 }
