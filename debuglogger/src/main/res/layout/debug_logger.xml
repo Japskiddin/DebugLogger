@@ -15,7 +15,7 @@
       android:orientation="horizontal"
       >
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:text="Clear log"
@@ -24,11 +24,11 @@
         android:id="@+id/btnLogClear"
         android:layout_margin="4dp"
         android:textColor="@color/debugButtonText"
-        app:backgroundTint="@color/debugButtonBackground"
+        android:background="@color/debugButtonBackground"
         android:textSize="12sp"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:text="Copy log"
@@ -37,7 +37,7 @@
         android:id="@+id/btnLogCopy"
         android:layout_margin="4dp"
         android:textColor="@color/debugButtonText"
-        app:backgroundTint="@color/debugButtonBackground"
+        android:background="@color/debugButtonBackground"
         android:textSize="12sp"
         />
 
