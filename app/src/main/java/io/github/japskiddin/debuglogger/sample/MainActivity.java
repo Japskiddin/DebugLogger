@@ -9,7 +9,6 @@ import io.github.japskiddin.debuglogger.sample.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
   // TODO: 29.05.2022 поучиться написанию тестов
-  // TODO: 29.05.2022 посмотреть, возможно ли сюда прикрутить databinding и livedata
 
   private ActivityMainBinding binding;
   private final Handler testMessageHandler = new Handler(Looper.getMainLooper());

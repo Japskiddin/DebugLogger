@@ -78,6 +78,14 @@ import java.util.List;
     });
   }
 
+  @Override public void onStart(@NonNull LifecycleOwner owner) {
+    DefaultLifecycleObserver.super.onStart(owner);
+  }
+
+  @Override public void onStop(@NonNull LifecycleOwner owner) {
+    DefaultLifecycleObserver.super.onStop(owner);
+  }
+
   @Override public void onPause(@NonNull LifecycleOwner owner) {
     logHandler.removeCallbacks(debugLogRunnable);
   }

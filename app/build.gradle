@@ -3,12 +3,11 @@ plugins {
 }
 
 android {
-  compileSdk 32
-
+  compileSdk 33
   defaultConfig {
     applicationId "io.github.japskiddin.debuglogger.sample"
     minSdk 16
-    targetSdk 32
+    targetSdk 33
     versionCode 1
     versionName "1.0.0"
   }
@@ -23,11 +22,13 @@ android {
   buildFeatures {
     viewBinding = true
   }
+
+  namespace 'io.github.japskiddin.debuglogger.sample'
 }
 
 dependencies {
-  implementation 'androidx.appcompat:appcompat:1.4.1'
-  implementation 'com.google.android.material:material:1.6.0'
+  implementation 'androidx.appcompat:appcompat:1.5.0'
+  implementation 'com.google.android.material:material:1.6.1'
   implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
   implementation project(':debuglogger')
 }
