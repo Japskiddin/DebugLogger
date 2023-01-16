@@ -1,53 +1,51 @@
-package io.github.japskiddin.debuglogger.sample;
+package io.github.japskiddin.debuglogger.sample
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import androidx.appcompat.app.AppCompatActivity;
-import io.github.japskiddin.debuglogger.LogManager;
-import io.github.japskiddin.debuglogger.sample.databinding.ActivityMainBinding;
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
+import io.github.japskiddin.debuglogger.LogManager.Companion.getInstance
+import io.github.japskiddin.debuglogger.LogManager.Companion.init
+import io.github.japskiddin.debuglogger.sample.databinding.ActivityMainBinding
 
-public class MainActivity extends AppCompatActivity {
+class MainActivity : AppCompatActivity() {
   // TODO: 29.05.2022 поучиться написанию тестов
-
-  private ActivityMainBinding binding;
-  private final Handler testMessageHandler = new Handler(Looper.getMainLooper());
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    LogManager.init();
-    LogManager.getInstance().setEnabled(true);
-    binding = ActivityMainBinding.inflate(getLayoutInflater());
-    setContentView(binding.getRoot());
-    testMessageHandler.post(testMessageRunnable);
+  private var binding: ActivityMainBinding? = null
+  private val testMessageHandler = Handler(Looper.getMainLooper())
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    init()
+    getInstance()!!.isEnabled = true
+    binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding!!.root)
+    testMessageHandler.post(testMessageRunnable)
   }
 
-  @Override protected void onStart() {
-    super.onStart();
-    LogManager.getInstance().logDebug("Activity", "onStart");
+  override fun onStart() {
+    super.onStart()
+    getInstance()!!.logDebug("Activity", "onStart")
   }
 
-  @Override protected void onPause() {
-    LogManager.getInstance().logDebug("Activity", "onPause");
-    super.onPause();
+  override fun onPause() {
+    getInstance()!!.logDebug("Activity", "onPause")
+    super.onPause()
   }
 
-  @Override protected void onResume() {
-    super.onResume();
-    LogManager.getInstance().logDebug("Activity", "onResume");
+  override fun onResume() {
+    super.onResume()
+    getInstance()!!.logDebug("Activity", "onResume")
   }
 
-  @Override protected void onDestroy() {
-    testMessageHandler.removeCallbacks(testMessageRunnable);
-    binding = null;
-    super.onDestroy();
+  override fun onDestroy() {
+    testMessageHandler.removeCallbacks(testMessageRunnable)
+    binding = null
+    super.onDestroy()
   }
 
-  private final Runnable testMessageRunnable = new Runnable() {
-    @Override public void run() {
-      LogManager.getInstance().logInfo("Test", "New message");
-      testMessageHandler.postDelayed(this, 5000);
+  private val testMessageRunnable: Runnable = object : Runnable {
+    override fun run() {
+      getInstance()!!.logInfo("Test", "New message")
+      testMessageHandler.postDelayed(this, 5000)
     }
-  };
+  }
 }

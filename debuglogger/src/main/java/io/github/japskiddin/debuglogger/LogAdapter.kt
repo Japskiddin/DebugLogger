@@ -1,72 +1,62 @@
-package io.github.japskiddin.debuglogger;
+package io.github.japskiddin.debuglogger
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import io.github.japskiddin.debuglogger.databinding.RvDebugLogItemBinding;
-import java.util.ArrayList;
-import java.util.List;
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import io.github.japskiddin.debuglogger.LogAdapter.LogHolder
+import io.github.japskiddin.debuglogger.databinding.RvDebugLogItemBinding
 
-public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogHolder> {
-  private final List<LogEvent> logs;
+class LogAdapter : Adapter<LogHolder>() {
+  private val logs: MutableList<LogEvent>
 
-  public LogAdapter() {
-    logs = new ArrayList<>();
+  init {
+    logs = ArrayList()
   }
 
-  public void addItem(LogEvent log) {
-    logs.add(log);
-    notifyItemInserted(logs.size() - 1);
+  fun addItem(log: LogEvent) {
+    logs.add(log)
+    notifyItemInserted(logs.size - 1)
   }
 
-  public void clear() {
-    logs.clear();
-    notifyDataSetChanged();
+  fun clear() {
+    logs.clear()
+    notifyDataSetChanged()
   }
 
-  public String getAllText() {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < logs.size(); i++) {
-      LogEvent log = logs.get(i);
-      sb.append(log.toString());
-      if (i + 1 < logs.size()) {
-        sb.append("\n");
+  val allText: String
+    get() {
+      val sb = StringBuilder()
+      for (i in logs.indices) {
+        val log = logs[i]
+        sb.append(log.toString())
+        if (i + 1 < logs.size) {
+          sb.append("\n")
+        }
       }
+      return sb.toString()
     }
-    return sb.toString();
+  
+  val lastTime: Long
+    get() = if (logs.size > 0) logs[logs.size - 1].time else 0
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogHolder {
+    val binding = RvDebugLogItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    return LogHolder(binding)
   }
 
-  public long getLastTime() {
-    if (logs.size() > 0) return logs.get(logs.size() - 1).getTime();
-    return 0;
+  override fun onBindViewHolder(holder: LogHolder, position: Int) {
+    val log = logs[position]
+    holder.bind(log)
   }
 
-  @NonNull @Override
-  public LogHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return new LogHolder(
-        RvDebugLogItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+  override fun getItemCount(): Int {
+    return logs.size
   }
 
-  @Override public void onBindViewHolder(@NonNull LogHolder holder, int position) {
-    LogEvent log = logs.get(position);
-    holder.bind(log);
-  }
-
-  @Override public int getItemCount() {
-    return logs.size();
-  }
-
-  static class LogHolder extends RecyclerView.ViewHolder {
-    private final RvDebugLogItemBinding mBinding;
-
-    public LogHolder(@NonNull RvDebugLogItemBinding binding) {
-      super(binding.getRoot());
-      mBinding = binding;
-    }
-
-    void bind(LogEvent log) {
-      mBinding.tvLog.setText(log.toString());
+  class LogHolder(private val mBinding: RvDebugLogItemBinding) : ViewHolder(mBinding.root) {
+    fun bind(log: LogEvent) {
+      mBinding.tvLog.text = log.toString()
     }
   }
 }

@@ -1,76 +1,65 @@
-package io.github.japskiddin.debuglogger;
+package io.github.japskiddin.debuglogger
 
-import java.util.ArrayList;
-import java.util.List;
+class LogManager private constructor() {
+  var isEnabled = false
+  private val logs: MutableList<LogEvent>
 
-public class LogManager {
-  private static LogManager instance;
-  private boolean enabled;
-  private final List<LogEvent> logs;
+  init {
+    logs = ArrayList()
+  }
 
-  public static LogManager getInstance() {
-    LogManager localInstance = instance;
-    if (localInstance == null) {
-      synchronized (LogManager.class) {
-        localInstance = instance;
-        if (localInstance == null) {
-          instance = localInstance = new LogManager();
+  fun getLogs(): List<LogEvent> {
+    return logs
+  }
+
+  fun clear() {
+    synchronized(logs) { logs.clear() }
+  }
+
+  fun logInfo(tag: String, event: String) {
+    addToLog(LogEvent.LOG_INFO, tag, event)
+  }
+
+  fun logError(tag: String, event: String) {
+    addToLog(LogEvent.LOG_ERROR, tag, event)
+  }
+
+  fun logDebug(tag: String, event: String) {
+    addToLog(LogEvent.LOG_DEBUG, tag, event)
+  }
+
+  fun logWarn(tag: String, event: String) {
+    addToLog(LogEvent.LOG_WARN, tag, event)
+  }
+
+  private fun addToLog(type: Int, tag: String, event: String) {
+    if (!isEnabled) return
+    synchronized(logs) {
+      val log = LogEvent(type, tag, event)
+      logs.add(log)
+    }
+  }
+
+  companion object {
+    private var instance: LogManager? = null
+    @JvmStatic fun getInstance(): LogManager? {
+      var localInstance = instance
+      if (localInstance == null) {
+        synchronized(LogManager::class.java) {
+          localInstance = instance
+          if (localInstance == null) {
+            localInstance = LogManager()
+            instance = localInstance
+          }
         }
       }
+      return localInstance
     }
-    return localInstance;
-  }
 
-  public static void init() {
-    if (instance == null) {
-      instance = new LogManager();
+    @JvmStatic fun init() {
+      if (instance == null) {
+        instance = LogManager()
+      }
     }
-  }
-
-  private LogManager() {
-    logs = new ArrayList<>();
-    enabled = false;
-  }
-
-  public List<LogEvent> getLogs() {
-    return logs;
-  }
-
-  public void clear() {
-    synchronized (logs) {
-      logs.clear();
-    }
-  }
-
-  public void logInfo(String tag, String event) {
-    addToLog(LogEvent.LOG_INFO, tag, event);
-  }
-
-  public void logError(String tag, String event) {
-    addToLog(LogEvent.LOG_ERROR, tag, event);
-  }
-
-  public void logDebug(String tag, String event) {
-    addToLog(LogEvent.LOG_DEBUG, tag, event);
-  }
-
-  public void logWarn(String tag, String event) {
-    addToLog(LogEvent.LOG_WARN, tag, event);
-  }
-
-  private void addToLog(int type, String tag, String event) {
-    if (!enabled) return;
-    synchronized (logs) {
-      LogEvent log = new LogEvent(type, tag, event);
-      logs.add(log);
-    }
-  }
-
-  public boolean isEnabled() {
-    return enabled;
-  }
-
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
   }
 }
