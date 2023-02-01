@@ -1,4 +1,4 @@
-package io.github.japskiddin.debuglogger
+package io.github.japskiddin.debuglogger.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -11,7 +11,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import io.github.japskiddin.debuglogger.adapter.LogAdapter
 import io.github.japskiddin.debuglogger.databinding.DebugLoggerBinding
+import io.github.japskiddin.debuglogger.manager.LogManager
+import io.github.japskiddin.debuglogger.model.LogEvent
 
 class DebugLogger : LinearLayout, DefaultLifecycleObserver {
   private val logHandler = Handler(Looper.getMainLooper())

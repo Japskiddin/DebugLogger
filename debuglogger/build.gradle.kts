@@ -1,7 +1,6 @@
 plugins {
   id("com.android.library")
   kotlin("android")
-  kotlin("android.extensions")
 }
 
 apply(from = "./publish.gradle")
@@ -41,6 +40,11 @@ android {
     targetSdk = AppConfig.targetSdk
   }
 
+  buildFeatures {
+    viewBinding = true
+    buildConfig = true
+  }
+
   buildTypes {
     getByName("release") {
       isMinifyEnabled = false
@@ -49,10 +53,6 @@ android {
         "proguard-rules.pro"
       )
     }
-  }
-
-  viewBinding {
-    android.buildFeatures.viewBinding = true
   }
 }
 

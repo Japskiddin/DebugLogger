@@ -2,7 +2,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object AppDependencies {
   //std lib
-  private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+  private const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
 
   //lifecycle
   private const val lifecycle = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
@@ -27,13 +27,7 @@ object AppDependencies {
     add(kotlinStdLib)
     add(lifecycle)
     add(recyclerView)
-  }
-}
-
-//util functions for adding the different type dependencies from build.gradle file
-fun DependencyHandler.kapt(list: List<String>) {
-  list.forEach { dependency ->
-    add("kapt", dependency)
+    add(constraintLayout)
   }
 }
 

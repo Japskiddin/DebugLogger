@@ -1,7 +1,6 @@
 plugins {
   id("com.android.application")
   kotlin("android")
-  kotlin("android.extensions")
 }
 
 android {
@@ -16,6 +15,11 @@ android {
     versionName = AppConfig.versionName
   }
 
+  buildFeatures {
+    viewBinding = true
+    buildConfig = true
+  }
+
   buildTypes {
     getByName("release") {
       isMinifyEnabled = false
@@ -24,10 +28,6 @@ android {
         "proguard-rules.pro"
       )
     }
-  }
-
-  viewBinding {
-    android.buildFeatures.viewBinding = true
   }
 }
 

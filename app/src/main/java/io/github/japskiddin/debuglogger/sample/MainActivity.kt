@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import io.github.japskiddin.debuglogger.LogManager.Companion.getInstance
-import io.github.japskiddin.debuglogger.LogManager.Companion.init
+import io.github.japskiddin.debuglogger.manager.LogManager.Companion.getInstance
+import io.github.japskiddin.debuglogger.manager.LogManager.Companion.init
 import io.github.japskiddin.debuglogger.sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

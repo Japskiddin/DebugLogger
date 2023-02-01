@@ -1,11 +1,12 @@
-package io.github.japskiddin.debuglogger
+package io.github.japskiddin.debuglogger.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import io.github.japskiddin.debuglogger.LogAdapter.LogHolder
+import io.github.japskiddin.debuglogger.adapter.LogAdapter.LogHolder
 import io.github.japskiddin.debuglogger.databinding.RvDebugLogItemBinding
+import io.github.japskiddin.debuglogger.model.LogEvent
 
 class LogAdapter : Adapter<LogHolder>() {
   private val logs: MutableList<LogEvent>
@@ -20,8 +21,8 @@ class LogAdapter : Adapter<LogHolder>() {
   }
 
   fun clear() {
+    notifyItemRangeRemoved(0, itemCount)
     logs.clear()
-    notifyDataSetChanged()
   }
 
   val allText: String
@@ -36,9 +37,6 @@ class LogAdapter : Adapter<LogHolder>() {
       }
       return sb.toString()
     }
-  
-  val lastTime: Long
-    get() = if (logs.size > 0) logs[logs.size - 1].time else 0
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogHolder {
     val binding = RvDebugLogItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="debugButtonText">#FFFFFF</color>
+  <color name="debugButtonBackground">#5E4792</color>
+  <color name="debugLoggerBackground">#252525</color>
+  <color name="debugLogText">#CCCCCC</color>
+</resources>
