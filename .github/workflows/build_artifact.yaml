@@ -3,15 +3,21 @@ name: Test Apk
 on:
   workflow_dispatch:
 
-env:
-  GPR_USER: ${{ github.actor }}
-  GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
-
 jobs:
   build_apk:
     name: Build Apk
     runs-on: ubuntu-latest
     steps:
+      - name: Make properties file
+        env:
+          GPR_USER: ${{ github.actor }}
+          GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
+        run:
+          touch github.properties
+          echo gpr.usr="$GPR_USER" >> github.properties
+          echo gpr.key="$GPR_API_KEY" >> github.properties
+        shell: bash
+
       - uses: actions/checkout@v3
 
       - name: Setup jdk-17

@@ -3,8 +3,11 @@ apply plugin: 'maven-publish'
 // TODO как это вообще переписать на .kts то
 // TODO https://proandroiddev.com/using-kotlin-dsl-to-publish-an-android-library-to-github-packages-2a6a2140068e
 
+def propertiesName = "github.properties"
 def githubProperties = new Properties()
-githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+if (rootProject.file(propertiesName).exists()) {
+  githubProperties.load(new FileInputStream(rootProject.file(propertiesName)))
+}
 
 def mGroupId = 'io.github.japskiddin'
 def mArtifactId = 'debuglogger'
