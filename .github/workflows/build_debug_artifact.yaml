@@ -1,11 +1,11 @@
-name: Test Apk
+name: Test APK
 
 on:
   workflow_dispatch:
 
 jobs:
   build_apk:
-    name: Build Apk
+    name: Build APK
     runs-on: ubuntu-latest
     steps:
       - name: Make properties file
@@ -36,5 +36,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: apk_debug.apk
+          name: apk_debug
           path: app/build/outputs/apk/debug/**.apk
