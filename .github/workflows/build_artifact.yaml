@@ -1,0 +1,30 @@
+name: Test Apk
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_apk:
+    name: Build Apk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup jdk-17
+        uses: actions/setup-java@main
+        with:
+          java-version: 17
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Assemble Debug
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk_debug.apk
+          path: app/build/outputs/apk/debug/**.apk
