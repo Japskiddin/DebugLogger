@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import io.github.japskiddin.debuglogger.manager.LogManager.Companion.getInstance
-import io.github.japskiddin.debuglogger.manager.LogManager.Companion.init
+import io.github.japskiddin.debuglogger.manager.LogManager
 import io.github.japskiddin.debuglogger.sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,8 +13,8 @@ class MainActivity : AppCompatActivity() {
   private val testMessageHandler = Handler(Looper.getMainLooper())
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    init()
-    getInstance()!!.isEnabled = true
+    LogManager.init()
+    LogManager.getInstance()!!.isEnabled = true
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding!!.root)
     testMessageHandler.post(testMessageRunnable)
@@ -23,17 +22,17 @@ class MainActivity : AppCompatActivity() {
 
   override fun onStart() {
     super.onStart()
-    getInstance()!!.logDebug("Activity", "onStart")
+    LogManager.getInstance()!!.logDebug("Activity", "onStart")
   }
 
   override fun onPause() {
-    getInstance()!!.logDebug("Activity", "onPause")
+    LogManager.getInstance()!!.logDebug("Activity", "onPause")
     super.onPause()
   }
 
   override fun onResume() {
     super.onResume()
-    getInstance()!!.logDebug("Activity", "onResume")
+    LogManager.getInstance()!!.logDebug("Activity", "onResume")
   }
 
   override fun onDestroy() {
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
   private val testMessageRunnable: Runnable = object : Runnable {
     override fun run() {
-      getInstance()!!.logInfo("Test", "New message")
+      LogManager.getInstance()!!.logInfo("Test", "New message")
       testMessageHandler.postDelayed(this, 5000)
     }
   }
