@@ -3,6 +3,8 @@ plugins {
   kotlin("android")
 }
 
+apply(from = "./publish.gradle")
+
 android {
   namespace = "io.github.japskiddin.debuglogger"
 
@@ -45,7 +47,6 @@ android {
 
   buildTypes {
     getByName("release") {
-      apply(from = "./publish.gradle")
       isMinifyEnabled = false
       proguardFiles(
         getDefaultProguardFile("proguard-android-optimize.txt"),
