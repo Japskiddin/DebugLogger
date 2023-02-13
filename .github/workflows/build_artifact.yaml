@@ -3,6 +3,10 @@ name: Test Apk
 on:
   workflow_dispatch:
 
+env:
+  GPR_USER: ${{ github.actor }}
+  GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
+
 jobs:
   build_apk:
     name: Build Apk
