@@ -11,7 +11,7 @@ if (rootProject.file(propertiesName).exists()) {
 
 def mGroupId = 'io.github.japskiddin'
 def mArtifactId = 'debuglogger'
-def mVersion = '1.1.0'
+def mVersion = '1.1.1'
 
 task sourceJar(type: Jar) {
   from android.sourceSets.main.java.srcDirs

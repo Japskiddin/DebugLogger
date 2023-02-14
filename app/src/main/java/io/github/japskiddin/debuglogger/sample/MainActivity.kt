@@ -9,6 +9,7 @@ import io.github.japskiddin.debuglogger.sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
   // TODO: 29.05.2022 поучиться написанию тестов
+
   private var binding: ActivityMainBinding? = null
   private val testMessageHandler = Handler(Looper.getMainLooper())
   override fun onCreate(savedInstanceState: Bundle?) {

@@ -12,6 +12,6 @@ object Versions {
   const val constraintLayout = "2.1.4"
 
   //libs
-  const val appcompat = "1.6.0"
+  const val appcompat = "1.6.1"
   const val material = "1.8.0"
 }
