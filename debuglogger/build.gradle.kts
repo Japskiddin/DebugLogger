@@ -79,7 +79,7 @@ publishing {
       groupId = "io.github.japskiddin"
       artifactId = getArtificatId()
       version = getVersionName()
-      artifact("$buildDir/outputs/aar/debuglogger-release.aar")
+      artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
     }
   }
 
@@ -88,8 +88,8 @@ publishing {
       name = "GithubPackages"
       url = uri("https://maven.pkg.github.com/japskiddin/DebugLogger")
       credentials {
-        username = githubProperties.getProperty("gpr.usr") as String ?: System.getenv("GPR_USER")
-        password = githubProperties.getProperty("gpr.key") as String ?: System.getenv("GPR_API_KEY")
+        username = githubProperties.getProperty("gpr.usr") ?: System.getenv("GPR_USER")
+        password = githubProperties.getProperty("gpr.key") ?: System.getenv("GPR_API_KEY")
       }
     }
   }
