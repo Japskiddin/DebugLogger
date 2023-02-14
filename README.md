@@ -1,6 +1,6 @@
 # DebugLogger
 
-[![Test Apk](https://github.com/Japskiddin/DebugLogger/actions/workflows/build_artifact.yaml/badge.svg)](https://github.com/Japskiddin/DebugLogger/actions/workflows/build_artifact.yaml)
+[![Check build](https://github.com/Japskiddin/DebugLogger/actions/workflows/check_build.yml/badge.svg)](https://github.com/Japskiddin/DebugLogger/actions/workflows/check_build.yml)
 
 Simple library that can log events and display it inside application.
 
