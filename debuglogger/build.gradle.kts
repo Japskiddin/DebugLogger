@@ -87,8 +87,8 @@ publishing {
       name = "GithubPackages"
       url = uri("https://maven.pkg.github.com/japskiddin/DebugLogger")
       credentials {
-        username = githubProperties.get("gpr.usr") as String ?: System.getenv("GPR_USER")
-        password = githubProperties.get("gpr.key") as String ?: System.getenv("GPR_API_KEY")
+        username = githubProperties["gpr.usr"] as String ?: System.getenv("GPR_USER")
+        password = githubProperties["gpr.key"] as String ?: System.getenv("GPR_API_KEY")
       }
     }
   }
