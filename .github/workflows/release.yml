@@ -63,4 +63,7 @@ jobs:
         run: ./gradlew assembleRelease
 
       - name: Publish to Github Packages
+        env:
+          GPR_USER: ${{ github.actor }}
+          GPR_API_KEY: ${{ secrets.GPR_API_KEY }}
         run: ./gradlew publish
