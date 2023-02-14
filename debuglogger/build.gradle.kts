@@ -59,9 +59,10 @@ android {
 }
 
 val propertiesName = "github.properties"
-val githubProperties = Properties()
-if (rootProject.file(propertiesName).exists()) {
-  githubProperties.load(FileInputStream(rootProject.file(propertiesName)))
+val githubProperties = Properties().apply {
+  if (rootProject.file(propertiesName).exists()) {
+    load(FileInputStream(rootProject.file(propertiesName)))
+  }
 }
 
 fun getVersionName(): String {
@@ -87,8 +88,8 @@ publishing {
       name = "GithubPackages"
       url = uri("https://maven.pkg.github.com/japskiddin/DebugLogger")
       credentials {
-        username = githubProperties["gpr.usr"] as String ?: System.getenv("GPR_USER")
-        password = githubProperties["gpr.key"] as String ?: System.getenv("GPR_API_KEY")
+        username = githubProperties.getProperty("gpr.usr") as String ?: System.getenv("GPR_USER")
+        password = githubProperties.getProperty("gpr.key") as String ?: System.getenv("GPR_API_KEY")
       }
     }
   }
