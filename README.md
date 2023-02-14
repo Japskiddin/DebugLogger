@@ -1,6 +1,7 @@
 # DebugLogger
 
 [![Check build](https://github.com/Japskiddin/DebugLogger/actions/workflows/check_build.yml/badge.svg)](https://github.com/Japskiddin/DebugLogger/actions/workflows/check_build.yml)
+[![Release And Update](https://github.com/Japskiddin/DebugLogger/actions/workflows/release.yml/badge.svg)](https://github.com/Japskiddin/DebugLogger/actions/workflows/release.yml)
 
 Simple library that can log events and display it inside application.
 
