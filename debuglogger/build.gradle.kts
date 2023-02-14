@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.konan.properties.hasProperty
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -88,8 +89,16 @@ publishing {
       name = "GithubPackages"
       url = uri("https://maven.pkg.github.com/japskiddin/DebugLogger")
       credentials {
-        username = githubProperties.getProperty("gpr.usr") ?: System.getenv("GPR_USER")
-        password = githubProperties.getProperty("gpr.key") ?: System.getenv("GPR_API_KEY")
+        username = if (githubProperties.hasProperty("gpr.usr")) {
+          githubProperties.getProperty("gpr.usr")
+        } else {
+          System.getenv("GPR_USER")
+        }
+        password = if (githubProperties.hasProperty("gpr.key")) {
+          githubProperties.getProperty("gpr.key")
+        } else {
+          System.getenv("GPR_API_KEY")
+        }
       }
     }
   }
