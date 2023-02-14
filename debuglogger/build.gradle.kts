@@ -65,7 +65,7 @@ if (rootProject.file(propertiesName).exists()) {
 }
 
 fun getVersionName(): String {
-  return "1.1.1"
+  return "1.1.2"
 }
 
 fun getArtificatId(): String {
