@@ -62,8 +62,5 @@ jobs:
       - name: Release build
         run: ./gradlew assembleRelease
 
-      - name: Source jar and docs
-        run: ./gradlew androidSourcesJar javadocJar
-
       - name: Publish to Github Packages
         run: ./gradlew publish
