@@ -1,6 +1,9 @@
 name: Check build
 
-on: [ push, workflow_dispatch ]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
