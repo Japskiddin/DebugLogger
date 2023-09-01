@@ -6,10 +6,29 @@ plugins {
   id("com.android.library")
   kotlin("android")
   id("maven-publish")
+  id("com.github.ben-manes.versions") version "0.47.0"
+}
+
+/**
+ * Locate (and possibly download) a JDK used to build your kotlin
+ * source code. This also acts as a default for sourceCompatibility,
+ * targetCompatibility and jvmTarget. Note that this does not affect which JDK
+ * is used to run the Gradle build itself, and does not need to take into
+ * account the JDK version required by Gradle plugins (such as the
+ * Android Gradle Plugin)
+ */
+kotlin {
+  jvmToolchain(17)
 }
 
 android {
   namespace = "io.github.japskiddin.debuglogger"
+  buildToolsVersion = AppConfig.buildToolsVersion
+  compileSdk = AppConfig.compileSdk
+  defaultConfig {
+    minSdk = AppConfig.minSdk
+    targetSdk = AppConfig.targetSdk
+  }
 
   packagingOptions {
     jniLibs {
@@ -37,12 +56,6 @@ android {
     }
   }
 
-  compileSdk = AppConfig.compileSdk
-  defaultConfig {
-    minSdk = AppConfig.minSdk
-    targetSdk = AppConfig.targetSdk
-  }
-
   buildFeatures {
     viewBinding = true
     buildConfig = true
@@ -57,6 +70,22 @@ android {
       )
     }
   }
+
+  /**
+   * To override source and target compatibility (if different from the
+   * toolchain JDK version), add the following. All of these
+   * default to the same value as kotlin.jvmToolchain. If you're using the
+   * same version for these values and kotlin.jvmToolchain, you can
+   * remove these blocks.
+   */
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+  }
+
+  kotlinOptions {
+    jvmTarget = JavaVersion.VERSION_17.toString()
+  }
 }
 
 val propertiesName = "github.properties"
@@ -70,7 +99,7 @@ fun getVersionName(): String {
   return "1.1.2"
 }
 
-fun getArtificatId(): String {
+fun getArtifactId(): String {
   return "debuglogger"
 }
 
@@ -78,7 +107,7 @@ publishing {
   publications {
     create<MavenPublication>("debugLogger") {
       groupId = "io.github.japskiddin"
-      artifactId = getArtificatId()
+      artifactId = this@Build_gradle.getArtifactId()
       version = getVersionName()
       artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
     }
