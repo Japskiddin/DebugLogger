@@ -48,6 +48,11 @@ android {
     }
 }
 
+tasks.withType<JavaCompile> {
+    val compilerArgs = options.compilerArgs
+    compilerArgs.addAll(listOf("-Xlint:unchecked", "-Xlint:deprecation"))
+}
+
 dependencies {
     implementation(AppDependencies.sampleLibraries)
     implementation(project(":debuglogger"))
