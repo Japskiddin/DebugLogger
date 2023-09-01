@@ -46,22 +46,6 @@ android {
             )
         }
     }
-
-    /**
-     * To override source and target compatibility (if different from the
-     * toolchain JDK version), add the following. All of these
-     * default to the same value as kotlin.jvmToolchain. If you're using the
-     * same version for these values and kotlin.jvmToolchain, you can
-     * remove these blocks.
-     */
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
 }
 
 dependencies {
