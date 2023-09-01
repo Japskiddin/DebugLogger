@@ -85,7 +85,7 @@ val githubProperties = Properties().apply {
 }
 
 fun getVersionName(): String {
-    return "1.1.2"
+    return "1.1.3"
 }
 
 fun getArtifactId(): String {
