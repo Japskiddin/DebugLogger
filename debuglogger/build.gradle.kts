@@ -84,21 +84,13 @@ val githubProperties = Properties().apply {
     }
 }
 
-fun getVersionName(): String {
-    return "1.1.3"
-}
-
-fun getArtifactId(): String {
-    return "debuglogger"
-}
-
 publishing {
     publications {
         create<MavenPublication>("debugLogger") {
             groupId = "io.github.japskiddin"
-            artifactId = this@Build_gradle.getArtifactId()
-            version = getVersionName()
-            artifact("${layout.buildDirectory}/outputs/aar/${artifactId}-release.aar")
+            artifactId = "debuglogger"
+            version = "1.1.3"
+            artifact("/build/outputs/aar/${artifactId}-release.aar")
         }
     }
 
