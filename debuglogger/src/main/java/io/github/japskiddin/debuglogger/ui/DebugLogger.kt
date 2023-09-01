@@ -17,68 +17,69 @@ import io.github.japskiddin.debuglogger.manager.LogManager
 import io.github.japskiddin.debuglogger.model.LogEvent
 
 class DebugLogger : LinearLayout, DefaultLifecycleObserver {
-  private val logHandler = Handler(Looper.getMainLooper())
-  private var logAdapter: LogAdapter? = null
-  private var binding: DebugLoggerBinding? = null
+    private lateinit var binding: DebugLoggerBinding
+    private lateinit var logAdapter: LogAdapter
+    private val logHandler = Handler(Looper.getMainLooper())
 
-  constructor(context: Context) : super(context) {
-    (context as LifecycleOwner).lifecycle.addObserver(this)
-  }
+    constructor(context: Context) : this(context, null, 0)
 
-  constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-    (context as LifecycleOwner).lifecycle.addObserver(this)
-  }
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-  private val debugLogRunnable: Runnable = object : Runnable {
-    override fun run() {
-      val logs: List<LogEvent> = ArrayList(LogManager.getInstance()!!.getLogs())
-      if (LogManager.getInstance()!!.isEnabled && logs.isNotEmpty()) {
-        for (log in logs) {
-          logAdapter!!.addItem(log)
-        }
-        binding!!.rvLogs.scrollToPosition(logAdapter!!.itemCount - 1)
-        LogManager.getInstance()!!.clear()
-      }
-      logHandler.postDelayed(this, HANDLER_DELAY)
+    constructor(context: Context, attrs: AttributeSet?, defaultStyleAttr: Int) : super(
+        context,
+        attrs,
+        defaultStyleAttr
+    ) {
+        (context as LifecycleOwner).lifecycle.addObserver(this)
     }
-  }
 
-  private fun onLogsClear() {
-    LogManager.getInstance()!!.clear()
-    logAdapter!!.clear()
-  }
+    private val debugLogRunnable: Runnable = object : Runnable {
+        override fun run() {
+            val logs: List<LogEvent> = ArrayList(LogManager.getInstance().getLogs())
+            if (LogManager.getInstance().isEnabled() && logs.isNotEmpty()) {
+                for (log in logs) {
+                    logAdapter.addItem(log)
+                }
+                binding.rvLogs.scrollToPosition(logAdapter.itemCount - 1)
+                LogManager.getInstance().clear()
+            }
+            logHandler.postDelayed(this, HANDLER_DELAY)
+        }
+    }
 
-  private fun onCopyLogs() {
-    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText("Copied text", logAdapter!!.allText)
-    clipboard.setPrimaryClip(clip)
-    Toast.makeText(context, "Text copied", Toast.LENGTH_LONG).show()
-  }
+    private fun onLogsClear() {
+        LogManager.getInstance().clear()
+        logAdapter.clear()
+    }
 
-  override fun onCreate(owner: LifecycleOwner) {
-    binding = DebugLoggerBinding.inflate(LayoutInflater.from(context), this, true)
-    logAdapter = LogAdapter()
-    binding!!.rvLogs.adapter = logAdapter
-    binding!!.btnLogClear.setOnClickListener { onLogsClear() }
-    binding!!.btnLogCopy.setOnClickListener { onCopyLogs() }
-  }
+    private fun onCopyLogs() {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Copied text", logAdapter.allText)
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(context, "Text copied", Toast.LENGTH_LONG).show()
+    }
 
-  override fun onStart(owner: LifecycleOwner) {}
-  override fun onStop(owner: LifecycleOwner) {}
-  override fun onPause(owner: LifecycleOwner) {
-    logHandler.removeCallbacks(debugLogRunnable)
-  }
+    override fun onCreate(owner: LifecycleOwner) {
+        binding = DebugLoggerBinding.inflate(LayoutInflater.from(context), this, true)
+        logAdapter = LogAdapter()
+        binding.rvLogs.adapter = logAdapter
+        binding.btnLogClear.setOnClickListener { onLogsClear() }
+        binding.btnLogCopy.setOnClickListener { onCopyLogs() }
+    }
 
-  override fun onResume(owner: LifecycleOwner) {
-    logHandler.post(debugLogRunnable)
-  }
+    override fun onPause(owner: LifecycleOwner) {
+        logHandler.removeCallbacks(debugLogRunnable)
+    }
 
-  override fun onDestroy(owner: LifecycleOwner) {
-    logHandler.removeCallbacks(debugLogRunnable)
-    binding = null
-  }
+    override fun onResume(owner: LifecycleOwner) {
+        logHandler.post(debugLogRunnable)
+    }
 
-  companion object {
-    private const val HANDLER_DELAY = 2000L
-  }
+    override fun onDestroy(owner: LifecycleOwner) {
+        logHandler.removeCallbacks(debugLogRunnable)
+    }
+
+    companion object {
+        private const val HANDLER_DELAY = 2000L
+    }
 }
