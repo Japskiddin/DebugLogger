@@ -10,7 +10,7 @@ pluginManagement {
      * and the Maven Central Repository as the repositories Gradle should use to look for its
      * dependencies.
      */
-
+    
     repositories {
         gradlePluginPortal()
         google()

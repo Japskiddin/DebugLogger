@@ -6,7 +6,6 @@ plugins {
     id("com.android.library")
     kotlin("android")
     id("maven-publish")
-    id("com.github.ben-manes.versions") version "0.47.0"
 }
 
 /**
@@ -155,5 +154,5 @@ tasks.register<Jar>("withSourcesJar") {
 }
 
 dependencies {
-    implementation(AppDependencies.loggerLibraries)
+    implementation(libs.bundles.library)
 }

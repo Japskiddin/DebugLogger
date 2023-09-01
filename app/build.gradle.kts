@@ -54,6 +54,6 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    implementation(AppDependencies.sampleLibraries)
+    implementation(libs.bundles.sample)
     implementation(project(":debuglogger"))
 }
