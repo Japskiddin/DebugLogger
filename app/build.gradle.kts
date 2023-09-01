@@ -28,7 +28,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        setProperty("archivesBaseName", "debug_logger_sample_${versionCode}_${versionName}")
     }
 
     buildFeatures {
