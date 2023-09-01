@@ -27,13 +27,12 @@ android {
     compileSdk = AppConfig.compileSdk
     defaultConfig {
         minSdk = AppConfig.minSdk
-        targetSdk = AppConfig.targetSdk
         vectorDrawables {
             useSupportLibrary = true
         }
     }
 
-    packagingOptions {
+    packaging {
         jniLibs {
             excludes += listOf(
                 "**/kotlin/**",
