@@ -89,7 +89,7 @@ publishing {
         create<MavenPublication>("debugLogger") {
             groupId = "io.github.japskiddin"
             artifactId = "debuglogger"
-            version = "1.1.3"
+            version = "1.1.4"
             artifact("/build/outputs/aar/${artifactId}-release.aar")
         }
     }
