@@ -83,6 +83,7 @@ val githubProperties = Properties().apply {
         load(FileInputStream(rootProject.file(propertiesName)))
     }
 }
+val outputsDirectoryPath = layout.buildDirectory.dir("outputs").get().toString()
 
 publishing {
     publications {
@@ -90,7 +91,7 @@ publishing {
             groupId = "io.github.japskiddin"
             artifactId = "debuglogger"
             version = "1.1.5"
-            artifact("/build/outputs/aar/${artifactId}-release.aar")
+            artifact("${outputsDirectoryPath}/aar/${artifactId}-release.aar")
         }
     }
 
