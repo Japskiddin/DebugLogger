@@ -33,7 +33,7 @@ class DebugLogger : LinearLayout, DefaultLifecycleObserver {
         (context as LifecycleOwner).lifecycle.addObserver(this)
     }
 
-    private val debugLogRunnable: Runnable = object : Runnable {
+    private val debugLogRunnable = object : Runnable {
         override fun run() {
             val logs: List<LogEvent> = ArrayList(LogManager.getInstance().getLogs())
             if (LogManager.getInstance().isEnabled() && logs.isNotEmpty()) {
