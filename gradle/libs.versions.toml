@@ -6,18 +6,19 @@ material = "1.9.0"
 lifecycle = "2.6.2"
 recyclerView = "1.3.1"
 constraintLayout = "2.1.4"
+compose-bom = "2023.09.02"
 
 [libraries]
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-kotlin-std-lib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
-lifecycle-common-java8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle" }
-recycler-view = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerView" }
-constraint-layout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayout" }
-
-[bundles]
-sample = ["kotlin-std-lib", "appcompat", "material", "constraint-layout"]
-library = ["kotlin-std-lib", "lifecycle-common-java8", "recycler-view", "constraint-layout"]
+kotlinStdLib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+lifecycleCommonJava8 = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle" }
+recyclerView = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerView" }
+constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayout" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-uiTooling = { module = "androidx.compose.ui:ui-tooling" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

@@ -53,6 +53,9 @@ tasks.withType<JavaCompile> {
 }
 
 dependencies {
-    implementation(libs.bundles.sample)
+    implementation(libs.kotlinStdLib)
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.constraintLayout)
     implementation(project(":debuglogger"))
 }

@@ -64,6 +64,11 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = AppConfig.compose
     }
 
     buildTypes {
@@ -88,9 +93,9 @@ val outputsDirectoryPath = layout.buildDirectory.dir("outputs").get().toString()
 publishing {
     publications {
         create<MavenPublication>("debugLogger") {
-            groupId = "io.github.japskiddin"
-            artifactId = "debuglogger"
-            version = "1.1.6"
+            groupId = LibConfig.groupId
+            artifactId = LibConfig.artifactId
+            version = LibConfig.version
             artifact("${outputsDirectoryPath}/aar/${artifactId}-release.aar")
         }
     }
@@ -147,5 +152,12 @@ tasks.register<Jar>("withSourcesJar") {
 }
 
 dependencies {
-    implementation(libs.bundles.library)
+    implementation(libs.kotlinStdLib)
+    implementation(libs.lifecycleCommonJava8)
+    implementation(libs.recyclerView)
+    implementation(libs.constraintLayout)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.material3)
+    implementation(libs.compose.uiToolingPreview)
+    debugImplementation(libs.compose.uiTooling)
 }
