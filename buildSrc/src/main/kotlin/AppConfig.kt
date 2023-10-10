@@ -6,5 +6,4 @@ object AppConfig {
     const val buildToolsVersion = "34.0.0"
     const val versionCode = 1
     const val versionName = "1.0.0"
-    const val compose = "1.5.3"
 }

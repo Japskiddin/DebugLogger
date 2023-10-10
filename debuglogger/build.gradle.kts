@@ -64,11 +64,6 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = AppConfig.compose
     }
 
     buildTypes {
@@ -158,8 +153,4 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.recyclerView)
     implementation(libs.constraintLayout)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.compose.material3)
-    implementation(libs.compose.uiToolingPreview)
-    debugImplementation(libs.compose.uiTooling)
 }
