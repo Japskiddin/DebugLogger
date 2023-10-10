@@ -5,58 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="4dp"
-    android:background="@color/debugLoggerBackground"
-    >
+    android:background="@color/debugLoggerBackground">
 
-  <Button
-      android:id="@+id/btn_log_clear"
-      android:layout_width="0dp"
-      android:layout_height="40dp"
-      android:text="Clear log"
-      tools:ignore="HardcodedText"
-      android:layout_margin="4dp"
-      android:textColor="@color/debugButtonText"
-      android:background="@color/debugButtonBackground"
-      android:textSize="12sp"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toStartOf="@id/btn_log_copy"
-      />
+    <Button
+        android:id="@+id/btn_log_clear"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:text="Clear log"
+        tools:ignore="HardcodedText"
+        android:layout_margin="4dp"
+        android:textColor="@color/debugButtonText"
+        android:background="@color/debugButtonBackground"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_log_copy" />
 
-  <Button
-      android:id="@+id/btn_log_copy"
-      android:layout_width="0dp"
-      android:layout_height="40dp"
-      android:text="Copy log"
-      tools:ignore="HardcodedText"
-      android:layout_margin="4dp"
-      android:textColor="@color/debugButtonText"
-      android:background="@color/debugButtonBackground"
-      android:textSize="12sp"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/btn_log_clear"
-      />
+    <Button
+        android:id="@+id/btn_log_copy"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:text="Copy log"
+        tools:ignore="HardcodedText"
+        android:layout_margin="4dp"
+        android:textColor="@color/debugButtonText"
+        android:background="@color/debugButtonBackground"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_log_clear" />
 
-  <androidx.constraintlayout.widget.Barrier
-      android:id="@+id/barrier_buttons"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      app:barrierDirection="bottom"
-      app:constraint_referenced_ids="btn_log_clear, btn_log_copy"
-      />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_buttons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="btn_log_clear, btn_log_copy" />
 
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/rv_logs"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-      android:orientation="vertical"
-      tools:listitem="@layout/rv_debug_log_item"
-      app:layout_constraintTop_toBottomOf="@id/barrier_buttons"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"
-      />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_logs"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        tools:listitem="@layout/rv_debug_log_item"
+        app:layout_constraintTop_toBottomOf="@id/barrier_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="debugButtonText">#FFFFFF</color>
-  <color name="debugButtonBackground">#FF3700B3</color>
-  <color name="debugLoggerBackground">#FFFFFF</color>
-  <color name="debugLogText">#000000</color>
+    <color name="debugButtonText">#FFFFFF</color>
+    <color name="debugButtonBackground">#FF3700B3</color>
+    <color name="debugLoggerBackground">#FFFFFF</color>
+    <color name="debugLogText">#000000</color>
 </resources>
