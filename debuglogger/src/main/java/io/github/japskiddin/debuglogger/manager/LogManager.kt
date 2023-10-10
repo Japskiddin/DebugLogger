@@ -5,13 +5,9 @@ import io.github.japskiddin.debuglogger.model.LogEvent
 
 class LogManager private constructor() {
     private var isEnabled = false
-    private val logs: MutableList<LogEvent>
+    private val logs: MutableList<LogEvent> = mutableListOf()
 
-    init {
-        logs = ArrayList()
-    }
-
-    fun getLogs(): List<LogEvent> {
+    fun getLogs(): MutableList<LogEvent> {
         return logs
     }
 

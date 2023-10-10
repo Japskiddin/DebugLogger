@@ -7,6 +7,14 @@ data class LogEvent(private val type: Level, private val tag: String, private va
     Comparable<LogEvent> {
     private val time: Long = System.currentTimeMillis()
 
+    fun areItemsTheSame(other: LogEvent): Boolean {
+        return time == other.time
+    }
+
+    fun areContentsTheSame(other: LogEvent): Boolean {
+        return type == other.type && tag == other.tag && text == other.text
+    }
+
     override fun compareTo(other: LogEvent): Int {
         return time.compareTo(other.time)
     }

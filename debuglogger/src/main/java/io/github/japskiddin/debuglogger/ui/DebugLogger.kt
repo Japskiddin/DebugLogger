@@ -14,7 +14,6 @@ import androidx.lifecycle.LifecycleOwner
 import io.github.japskiddin.debuglogger.adapter.LogAdapter
 import io.github.japskiddin.debuglogger.databinding.DebugLoggerBinding
 import io.github.japskiddin.debuglogger.manager.LogManager
-import io.github.japskiddin.debuglogger.model.LogEvent
 
 class DebugLogger : LinearLayout, DefaultLifecycleObserver {
     private lateinit var binding: DebugLoggerBinding
@@ -35,13 +34,8 @@ class DebugLogger : LinearLayout, DefaultLifecycleObserver {
 
     private val debugLogRunnable = object : Runnable {
         override fun run() {
-            val logs: List<LogEvent> = ArrayList(LogManager.getInstance().getLogs())
-            if (LogManager.getInstance().isEnabled() && logs.isNotEmpty()) {
-                for (log in logs) {
-                    logAdapter.addItem(log)
-                }
-                binding.rvLogs.scrollToPosition(logAdapter.itemCount - 1)
-                LogManager.getInstance().clear()
+            if (LogManager.getInstance().isEnabled()) {
+                logAdapter.submit(LogManager.getInstance().getLogs())
             }
             logHandler.postDelayed(this, HANDLER_DELAY)
         }
@@ -54,14 +48,14 @@ class DebugLogger : LinearLayout, DefaultLifecycleObserver {
 
     private fun onCopyLogs() {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("Copied text", logAdapter.allText)
+        val clip = ClipData.newPlainText("Copied text", logAdapter.getAllItemsString())
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(context, "Text copied", Toast.LENGTH_LONG).show()
+        Toast.makeText(context.applicationContext, "Text copied", Toast.LENGTH_LONG).show()
     }
 
     override fun onCreate(owner: LifecycleOwner) {
         binding = DebugLoggerBinding.inflate(LayoutInflater.from(context), this, true)
-        logAdapter = LogAdapter()
+        logAdapter = LogAdapter { binding.rvLogs.scrollToPosition(logAdapter.itemCount - 1) }
         binding.rvLogs.adapter = logAdapter
         binding.btnLogClear.setOnClickListener { onLogsClear() }
         binding.btnLogCopy.setOnClickListener { onCopyLogs() }

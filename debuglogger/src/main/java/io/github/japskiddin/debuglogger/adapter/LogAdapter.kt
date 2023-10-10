@@ -2,41 +2,47 @@ package io.github.japskiddin.debuglogger.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import io.github.japskiddin.debuglogger.adapter.LogAdapter.LogHolder
 import io.github.japskiddin.debuglogger.databinding.RvDebugLogItemBinding
 import io.github.japskiddin.debuglogger.model.LogEvent
 
-class LogAdapter : Adapter<LogHolder>() {
-    private val logs: MutableList<LogEvent>
-
-    init {
-        logs = ArrayList()
+private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<LogEvent>() {
+    override fun areItemsTheSame(oldItem: LogEvent, newItem: LogEvent): Boolean {
+        return oldItem.areItemsTheSame(newItem)
     }
 
-    fun addItem(log: LogEvent) {
-        logs.add(log)
-        notifyItemInserted(logs.size - 1)
+    override fun areContentsTheSame(oldItem: LogEvent, newItem: LogEvent): Boolean {
+        return oldItem.areContentsTheSame(newItem)
+    }
+}
+
+typealias ListChangeListener = () -> Unit
+
+class LogAdapter(private val listChangeListener: ListChangeListener) :
+    ListAdapter<LogEvent, LogHolder>(DIFF_CALLBACK) {
+    fun submit(logs: List<LogEvent>) {
+        val list = ArrayList(logs)
+        submitList(list)
     }
 
     fun clear() {
-        notifyItemRangeRemoved(0, itemCount)
-        logs.clear()
+        submitList(ArrayList())
     }
 
-    val allText: String
-        get() {
-            val sb = StringBuilder()
-            for (i in logs.indices) {
-                val log = logs[i]
-                sb.append(log.toString())
-                if (i + 1 < logs.size) {
-                    sb.append("\n")
-                }
+    fun getAllItemsString(): String {
+        val sb = StringBuilder()
+        for (i in currentList.indices) {
+            val log = currentList[i]
+            sb.append(log.toString())
+            if (i + 1 < currentList.size) {
+                sb.append("\n")
             }
-            return sb.toString()
         }
+        return sb.toString()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogHolder {
         val binding =
@@ -45,17 +51,25 @@ class LogAdapter : Adapter<LogHolder>() {
     }
 
     override fun onBindViewHolder(holder: LogHolder, position: Int) {
-        val log = logs[position]
+        val log = currentList[position]
         holder.bind(log)
     }
 
     override fun getItemCount(): Int {
-        return logs.size
+        return currentList.size
     }
 
-    class LogHolder(private val mBinding: RvDebugLogItemBinding) : ViewHolder(mBinding.root) {
+    override fun onCurrentListChanged(
+        previousList: MutableList<LogEvent>,
+        currentList: MutableList<LogEvent>
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+        listChangeListener()
+    }
+
+    class LogHolder(private val binding: RvDebugLogItemBinding) : ViewHolder(binding.root) {
         fun bind(log: LogEvent) {
-            mBinding.tvLog.text = log.toString()
+            binding.tvLog.text = log.toString()
         }
     }
 }
