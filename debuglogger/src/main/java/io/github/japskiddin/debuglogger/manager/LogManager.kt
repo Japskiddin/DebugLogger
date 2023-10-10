@@ -4,7 +4,7 @@ import io.github.japskiddin.debuglogger.model.Level
 import io.github.japskiddin.debuglogger.model.LogEvent
 
 class LogManager private constructor() {
-    private var isEnabled = false
+    var enabled = false
     private val logs: MutableList<LogEvent> = mutableListOf()
 
     fun getLogs(): MutableList<LogEvent> {
@@ -31,16 +31,8 @@ class LogManager private constructor() {
         addToLog(Level.WARN, tag, event)
     }
 
-    fun isEnabled(): Boolean {
-        return isEnabled
-    }
-
-    fun setEnabled(enabled: Boolean) {
-        isEnabled = enabled
-    }
-
     private fun addToLog(type: Level, tag: String, event: String) {
-        if (!isEnabled) return
+        if (!enabled) return
         synchronized(logs) {
             val log = LogEvent(type, tag, event)
             logs.add(log)

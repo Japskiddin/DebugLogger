@@ -34,7 +34,7 @@ class DebugLogger : LinearLayout, DefaultLifecycleObserver {
 
     private val debugLogRunnable = object : Runnable {
         override fun run() {
-            if (LogManager.getInstance().isEnabled()) {
+            if (LogManager.getInstance().enabled) {
                 logAdapter.submit(LogManager.getInstance().getLogs())
             }
             logHandler.postDelayed(this, HANDLER_DELAY)
