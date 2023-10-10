@@ -148,9 +148,6 @@ tasks.register<Jar>("withSourcesJar") {
 
 dependencies {
     implementation(libs.kotlinStdLib)
-    implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.common)
     implementation(libs.recyclerView)
-    implementation(libs.constraintLayout)
 }
