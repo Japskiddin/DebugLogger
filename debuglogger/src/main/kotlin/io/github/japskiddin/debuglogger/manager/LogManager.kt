@@ -9,7 +9,7 @@ public class LogManager private constructor() {
   private var enabled: AtomicBoolean = AtomicBoolean(false)
   private val logs: MutableList<LogEvent> = mutableListOf()
 
-  internal fun getLogs(): List<LogEvent> = logs
+  public fun getLogs(): List<LogEvent> = logs
 
   internal fun clear() {
     synchronized(logs) {
