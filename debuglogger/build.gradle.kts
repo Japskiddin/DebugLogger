@@ -40,7 +40,7 @@ android {
 
 val libGroupId = "io.github.japskiddin"
 val libArtifactId = "debuglogger"
-val libVersion = "1.2.0"
+val libVersion = "1.2.1"
 
 val propertiesName = "github.properties"
 val githubProperties = Properties().apply {
