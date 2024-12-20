@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
+  id("com.android.application")
+  kotlin("android")
 }
 
 /**
@@ -12,50 +12,44 @@ plugins {
  * Android Gradle Plugin)
  */
 kotlin {
-    jvmToolchain(17)
+  jvmToolchain(17)
 }
 
 android {
-    namespace = "io.github.japskiddin.debuglogger.sample"
-    buildToolsVersion = AppConfig.buildToolsVersion
-    compileSdk = AppConfig.compileSdk
-    defaultConfig {
-        applicationId = "io.github.japskiddin.debuglogger.sample"
-        minSdk = AppConfig.minSdk
-        targetSdk = AppConfig.targetSdk
-        versionCode = AppConfig.versionCode
-        versionName = AppConfig.versionName
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+  namespace = "io.github.japskiddin.debuglogger.sample"
+  compileSdk = libs.versions.androidSdk.compile.get().toInt()
+  defaultConfig {
+    applicationId = "io.github.japskiddin.debuglogger.sample"
+    minSdk = libs.versions.androidSdk.min.get().toInt()
+    targetSdk = libs.versions.androidSdk.target.get().toInt()
+    versionCode = 1
+    versionName = "1.0.1"
+    vectorDrawables {
+      useSupportLibrary = true
     }
+  }
 
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
+  buildFeatures {
+    viewBinding = true
+    buildConfig = true
+  }
+
+  buildTypes {
+    val release by getting {
+      isMinifyEnabled = true
+      isShrinkResources = true
+      proguardFiles(
+        getDefaultProguardFile("proguard-android-optimize.txt"),
+        "proguard-rules.pro"
+      )
     }
-
-    buildTypes {
-        val release by getting {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-}
-
-tasks.withType<JavaCompile> {
-    val compilerArgs = options.compilerArgs
-    compilerArgs.addAll(listOf("-Xlint:unchecked", "-Xlint:deprecation"))
+  }
 }
 
 dependencies {
-    implementation(libs.kotlinStdLib)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.constraintLayout)
-    implementation(project(":debuglogger"))
+  implementation(libs.androidx.appcompat)
+  implementation(libs.androidx.constraintLayout)
+  implementation(libs.material)
+
+  implementation(project(":debuglogger"))
 }

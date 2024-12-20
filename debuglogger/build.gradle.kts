@@ -1,11 +1,12 @@
+import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
 import org.jetbrains.kotlin.konan.properties.hasProperty
 import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    id("maven-publish")
+  id("com.android.library")
+  kotlin("android")
+  id("maven-publish")
 }
 
 /**
@@ -17,137 +18,100 @@ plugins {
  * Android Gradle Plugin)
  */
 kotlin {
-    jvmToolchain(17)
+  jvmToolchain(17)
+  explicitApi = ExplicitApiMode.Strict
 }
 
 android {
-    namespace = "io.github.japskiddin.debuglogger"
-    buildToolsVersion = AppConfig.buildToolsVersion
-    compileSdk = AppConfig.compileSdk
-    defaultConfig {
-        minSdk = AppConfig.minSdk
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+  namespace = "io.github.japskiddin.debuglogger"
+  compileSdk = libs.versions.androidSdk.compile.get().toInt()
+  defaultConfig {
+    minSdk = libs.versions.androidSdk.min.get().toInt()
+    vectorDrawables {
+      useSupportLibrary = true
     }
+  }
 
-    packaging {
-        jniLibs {
-            excludes += listOf(
-                "**/kotlin/**",
-                "META-INF/androidx.*",
-                "META-INF/proguard/androidx-*"
-            )
-        }
-        resources {
-            excludes += listOf(
-                "/META-INF/*.kotlin_module",
-                "**/kotlin/**",
-                "**/*.txt",
-                "**/*.xml",
-                "**/*.properties",
-                "META-INF/DEPENDENCIES",
-                "META-INF/LICENSE",
-                "META-INF/LICENSE.txt",
-                "META-INF/license.txt",
-                "META-INF/NOTICE",
-                "META-INF/NOTICE.txt",
-                "META-INF/notice.txt",
-                "META-INF/ASL2.0",
-                "META-INF/*.version",
-                "META-INF/androidx.*",
-                "META-INF/proguard/androidx-*"
-            )
-        }
-    }
-
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
-    }
-
-    buildTypes {
-        val release by getting {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+  buildFeatures {
+    viewBinding = true
+    buildConfig = true
+  }
 }
+
+val libGroupId = "io.github.japskiddin"
+val libArtifactId = "debuglogger"
+val libVersion = "1.1.8"
 
 val propertiesName = "github.properties"
 val githubProperties = Properties().apply {
-    if (rootProject.file(propertiesName).exists()) {
-        load(FileInputStream(rootProject.file(propertiesName)))
-    }
+  if (rootProject.file(propertiesName).exists()) {
+    load(FileInputStream(rootProject.file(propertiesName)))
+  }
 }
 val outputsDirectoryPath = layout.buildDirectory.dir("outputs").get().toString()
 
 publishing {
-    publications {
-        create<MavenPublication>("debugLogger") {
-            groupId = LibConfig.groupId
-            artifactId = LibConfig.artifactId
-            version = LibConfig.version
-            artifact("${outputsDirectoryPath}/aar/${artifactId}-release.aar")
-        }
+  publications {
+    create<MavenPublication>("debugLogger") {
+      groupId = libGroupId
+      artifactId = libArtifactId
+      version = libVersion
+      artifact("${outputsDirectoryPath}/aar/${artifactId}-release.aar")
     }
+  }
 
-    repositories {
-        maven {
-            name = "GithubPackages"
-            url = uri("https://maven.pkg.github.com/japskiddin/DebugLogger")
-            credentials {
-                username = if (githubProperties.hasProperty("gpr.usr")) {
-                    githubProperties.getProperty("gpr.usr")
-                } else {
-                    System.getenv("GPR_USER")
-                }
-                password = if (githubProperties.hasProperty("gpr.key")) {
-                    githubProperties.getProperty("gpr.key")
-                } else {
-                    System.getenv("GPR_API_KEY")
-                }
-            }
+  repositories {
+    maven {
+      name = "GithubPackages"
+      url = uri("https://maven.pkg.github.com/japskiddin/DebugLogger")
+      credentials {
+        username = if (githubProperties.hasProperty("gpr.usr")) {
+          githubProperties.getProperty("gpr.usr")
+        } else {
+          System.getenv("GPR_USER")
         }
+        password = if (githubProperties.hasProperty("gpr.key")) {
+          githubProperties.getProperty("gpr.key")
+        } else {
+          System.getenv("GPR_API_KEY")
+        }
+      }
     }
+  }
 }
 
 val sourceFiles = android.sourceSets.getByName("main").java.getSourceFiles()
 
 tasks.register<Javadoc>("withJavadoc") {
-    isFailOnError = false
-    dependsOn(tasks.named("compileDebugSources"), tasks.named("compileReleaseSources"))
+  isFailOnError = false
+  dependsOn(tasks.named("compileDebugSources"), tasks.named("compileReleaseSources"))
 
-    // add Android runtime classpath
-    android.bootClasspath.forEach { classpath += project.fileTree(it) }
+  // add Android runtime classpath
+  android.bootClasspath.forEach { classpath += project.fileTree(it) }
 
-    // add classpath for all dependencies
-    android.libraryVariants.forEach { variant ->
-        variant.javaCompileProvider.get().classpath.files.forEach { file ->
-            classpath += project.fileTree(file)
-        }
+  // add classpath for all dependencies
+  android.libraryVariants.forEach { variant ->
+    variant.javaCompileProvider.get().classpath.files.forEach { file ->
+      classpath += project.fileTree(file)
     }
+  }
 
-    source = sourceFiles
+  source = sourceFiles
 }
 
 tasks.register<Jar>("withJavadocJar") {
-    archiveClassifier.set("javadoc")
-    dependsOn(tasks.named("withJavadoc"))
-    val destination = tasks.named<Javadoc>("withJavadoc").get().destinationDir
-    from(destination)
+  archiveClassifier.set("javadoc")
+  dependsOn(tasks.named("withJavadoc"))
+  val destination = tasks.named<Javadoc>("withJavadoc").get().destinationDir
+  from(destination)
 }
 
 tasks.register<Jar>("withSourcesJar") {
-    archiveClassifier.set("sources")
-    from(sourceFiles)
+  archiveClassifier.set("sources")
+  from(sourceFiles)
 }
 
 dependencies {
-    implementation(libs.kotlinStdLib)
-    implementation(libs.lifecycle.common)
-    implementation(libs.recyclerView)
+  implementation(libs.androidx.lifecycle.common)
+  implementation(libs.androidx.recyclerView)
 }
