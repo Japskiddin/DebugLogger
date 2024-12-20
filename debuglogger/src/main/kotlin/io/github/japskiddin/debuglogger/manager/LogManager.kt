@@ -6,7 +6,7 @@ import io.github.japskiddin.debuglogger.model.LogEvent
 import java.util.concurrent.atomic.AtomicBoolean
 
 public class LogManager private constructor() {
-  public var enabled: AtomicBoolean = AtomicBoolean(false)
+  private var enabled: AtomicBoolean = AtomicBoolean(false)
   private val logs: MutableList<LogEvent> = mutableListOf()
 
   internal fun getLogs(): List<LogEvent> = logs
@@ -16,6 +16,12 @@ public class LogManager private constructor() {
       logs.clear()
     }
   }
+
+  public fun setEnabled(isEnabled: Boolean) {
+    enabled.set(isEnabled)
+  }
+
+  public fun isEnabled(): Boolean = enabled.get()
 
   public fun logInfo(tag: String, event: String) {
     addToLog(Level.INFO, tag, event)

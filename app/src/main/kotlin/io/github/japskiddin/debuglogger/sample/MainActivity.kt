@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    LogManager.getInstance().enabled.set(true)
+    LogManager.getInstance().setEnabled(true)
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
     testMessageHandler.post(testMessageRunnable)
