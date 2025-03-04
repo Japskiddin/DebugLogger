@@ -30,9 +30,9 @@ Using Java:
 
 ```java
 LogManager.getInstance().logInfo("Sample Tag","Info event");
-        LogManager.getInstance().logWarn("Sample Tag","Warning event");
-        LogManager.getInstance().logDebug("Sample Tag","Debug event");
-        LogManager.getInstance().logError("Sample Tag","Error event");
+LogManager.getInstance().logWarn("Sample Tag","Warning event");
+LogManager.getInstance().logDebug("Sample Tag","Debug event");
+LogManager.getInstance().logError("Sample Tag","Error event");
 ```
 
 Using Kotlin:
@@ -48,8 +48,10 @@ To display the logs in the application, you need to add a view to any convenient
 
 ```xml
 
-<io.github.japskiddin.debuglogger.ui.DebugLogger android:id="@+id/debug_logger"
-    android:layout_width="match_parent" android:layout_height="160dp" />
+<io.github.japskiddin.debuglogger.ui.DebugLogger
+        android:id="@+id/debug_logger"
+        android:layout_width="match_parent"
+        android:layout_height="160dp" />
 ```
 
 After that, the view will display all the logs sent via the LogManager as shown in the screenshot.
